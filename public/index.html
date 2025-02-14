@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Price Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/resources/css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div class="flex items-center py-4">
+                        <span class="font-semibold text-gray-500 text-lg">Crypto Tracker</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center">
+                        <span class="text-gray-500">Level: <span id="userLevel">1</span></span>
+                        <span class="ml-4 text-gray-500">XP: <span id="userXP">0</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Prijzen Sectie -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Crypto Prijzen</h2>
+                <div id="priceList" class="space-y-4"></div>
+            </div>
+
+            <!-- Grafiek Sectie -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Prijsverloop</h2>
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script src="/resources/js/api.js"></script>
+    <script src="/resources/js/chart.js"></script>
+    <script src="/resources/js/gamification.js"></script>
+</body>
+</html> 

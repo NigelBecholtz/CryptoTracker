@@ -1,0 +1,22 @@
+# IDE/Editor files
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+
+# Cursor AI files
+Cursor.md
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+*.log
