@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoQuest Markets</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-base-200 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="navbar bg-base-100 shadow-xl">
+            <div class="navbar-start">
+                <a href="index.html" class="btn btn-ghost text-xl">
+                    <i class="fas fa-chart-line mr-2"></i>CryptoTracker
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="markets.html" class="active">Markets</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="navbar-end">
+                <div class="flex items-center space-x-4">
+                    <button class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                            </div>
+                        </div>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Profile</a></li>
+                            <li><a>Settings</a></li>
+                            <li><a>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content wrapper -->
+    <div class="flex-grow">
+        <!-- Main Markets Content -->
+        <div class="container mx-auto px-4 pt-24">
+            <!-- Market Overview Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <i class="fas fa-globe-americas mr-2"></i>
+                            Global Market Cap
+                        </h2>
+                        <div class="stat">
+                            <div class="stat-value text-primary">$1.2T</div>
+                            <div class="stat-desc text-green-500">
+                                <i class="fas fa-arrow-up mr-1"></i>
+                                2.45% (24h)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Total Volume
+                        </h2>
+                        <div class="stat">
+                            <div class="stat-value text-secondary">$89B</div>
+                            <div class="stat-desc text-green-500">
+                                <i class="fas fa-arrow-up mr-1"></i>
+                                1.8% (24h)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <i class="fas fa-coins mr-2"></i>
+                            Active Cryptocurrencies
+                        </h2>
+                        <div class="stat">
+                            <div class="stat-value text-accent">12,345</div>
+                            <div class="stat-desc">Total unique coins</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cryptocurrency Markets Table -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="card-title">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Cryptocurrency Markets
+                        </h2>
+                        <div class="flex items-center space-x-4">
+                            <!-- Search Bar -->
+                            <div class="form-control w-full max-w-xs relative">
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Search Cryptocurrencies" 
+                                        class="input input-bordered input-sm w-full pr-10" 
+                                        id="cryptoSearchInput"
+                                    />
+                                    <button class="absolute right-0 top-0 rounded-l-none btn btn-sm btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <!-- Dropdown for search results -->
+                                <ul id="cryptoSearchResults" class="absolute z-10 mt-2 w-full bg-base-100 rounded-box shadow-lg hidden max-h-64 overflow-y-auto">
+                                    <!-- Search results will be dynamically populated here -->
+                                </ul>
+                            </div>
+
+                            <!-- Market Filters -->
+                            <div class="join">
+                                <button class="btn btn-sm join-item btn-primary">Top 100</button>
+                                <button class="btn btn-sm join-item">Gainers</button>
+                                <button class="btn btn-sm join-item">Losers</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="table table-compact w-full" id="cryptoMarketsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>24h Change</th>
+                                    <th>Market Cap</th>
+                                    <th>Volume (24h)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cryptoTableBody">
+                                <!-- Cryptocurrency rows will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer - aangepaste styling -->
+    <footer class="footer p-10 bg-base-100 text-base-content mt-auto">
+        <div>
+            <span class="footer-title">Services</span> 
+            <a class="link link-hover">Market Data</a>
+            <a class="link link-hover">Portfolio Tracking</a>
+            <a class="link link-hover">Trading Tools</a>
+        </div>
+        <div>
+            <span class="footer-title">Resources</span> 
+            <a class="link link-hover">Market Analysis</a>
+            <a class="link link-hover">Crypto Education</a>
+            <a class="link link-hover">Community</a>
+        </div>
+    </footer>
+</body>
+</html>

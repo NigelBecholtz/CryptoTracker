@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoQuest Portfolio</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-base-200 min-h-screen">
+    <!-- Navigation -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="navbar bg-base-100 shadow-xl">
+            <div class="navbar-start">
+                <a href="index.html" class="btn btn-ghost text-xl">
+                    <i class="fas fa-chart-line mr-2"></i>CryptoTracker
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="markets.html">Markets</a></li>
+                    <li><a class="active" href="portfolio.html">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="navbar-end">
+                <div class="flex items-center space-x-4">
+                    <button class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                            </div>
+                        </div>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Profile</a></li>
+                            <li><a>Settings</a></li>
+                            <li><a>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Portfolio Content -->
+    <div class="container mx-auto px-4 pt-24">
+        <!-- Portfolio Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-dollar-sign mr-2"></i>
+                        Total Balance
+                    </h2>
+                    <div class="stat">
+                        <div class="stat-value text-primary">$10,000</div>
+                        <div class="stat-desc text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            5.6% (24h)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Portfolio Value
+                    </h2>
+                    <div class="stat">
+                        <div class="stat-value text-secondary">$10,500</div>
+                        <div class="stat-desc text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            6.2% (7d)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-coins mr-2"></i>
+                        Coins Held
+                    </h2>
+                    <div class="stat">
+                        <div class="stat-value text-accent">3</div>
+                        <div class="stat-desc">Unique Cryptocurrencies</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cryptocurrency Holdings -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-chart-pie mr-2"></i>
+                    Your Cryptocurrency Holdings
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Coin 1: LearnCoin -->
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <div class="flex justify-between items-center">
+                                <h3 class="card-title">LearnCoin</h3>
+                                <span class="badge badge-primary">LRN</span>
+                            </div>
+                            <div class="stat px-0">
+                                <div class="stat-value text-primary">500 LRN</div>
+                                <div class="stat-desc">$5,000</div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-green-500">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +3.2%
+                                </span>
+                                <button class="btn btn-sm btn-outline btn-primary">
+                                    Trade
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coin 2: EduToken -->
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <div class="flex justify-between items-center">
+                                <h3 class="card-title">EduToken</h3>
+                                <span class="badge badge-secondary">EDU</span>
+                            </div>
+                            <div class="stat px-0">
+                                <div class="stat-value text-secondary">250 EDU</div>
+                                <div class="stat-desc">$2,500</div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-red-500">
+                                    <i class="fas fa-arrow-down mr-1"></i>
+                                    -1.5%
+                                </span>
+                                <button class="btn btn-sm btn-outline btn-secondary">
+                                    Trade
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coin 3: QuestCoin -->
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <div class="flex justify-between items-center">
+                                <h3 class="card-title">QuestCoin</h3>
+                                <span class="badge badge-accent">QST</span>
+                            </div>
+                            <div class="stat px-0">
+                                <div class="stat-value text-accent">750 QST</div>
+                                <div class="stat-desc">$3,000</div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-green-500">
+                                    <i class="fas fa-arrow-up mr-1"></i>
+                                    +2.7%
+                                </span>
+                                <button class="btn btn-sm btn-outline btn-accent">
+                                    Trade
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trading Education Section -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-graduation-cap mr-2"></i>
+                    Trading Learning Path
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <h3 class="card-title">Beginner</h3>
+                            <p class="text-sm">Learn the basics of cryptocurrency trading</p>
+                            <progress class="progress progress-primary w-full" value="30" max="100"></progress>
+                            <button class="btn btn-primary btn-sm mt-2">Start Course</button>
+                        </div>
+                    </div>
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <h3 class="card-title">Intermediate</h3>
+                            <p class="text-sm">Advanced trading strategies and analysis</p>
+                            <progress class="progress progress-secondary w-full" value="0" max="100"></progress>
+                            <button class="btn btn-secondary btn-sm mt-2" disabled>Locked</button>
+                        </div>
+                    </div>
+                    <div class="card bg-base-200 shadow-md">
+                        <div class="card-body">
+                            <h3 class="card-title">Expert</h3>
+                            <p class="text-sm">Master complex trading techniques</p>
+                            <progress class="progress progress-accent w-full" value="0" max="100"></progress>
+                            <button class="btn btn-accent btn-sm mt-2" disabled>Locked</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer p-10 bg-base-100 text-base-content mt-6">
+        <div>
+            <span class="footer-title">Services</span> 
+            <a class="link link-hover">Market Data</a>
+            <a class="link link-hover">Portfolio Tracking</a>
+            <a class="link link-hover">Trading Tools</a>
+        </div>
+        <div>
+            <span class="footer-title">Resources</span> 
+            <a class="link link-hover">Market Analysis</a>
+            <a class="link link-hover">Crypto Education</a>
+            <a class="link link-hover">Community</a>
+        </div>
+    </footer>
+    <script>
+        // Future interactivity can be added here
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trade buttons
+            const tradeButtons = document.querySelectorAll('button[class*="btn-outline"]');
+            
+            tradeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Future: Open trading modal or page
+                    alert('Trading functionality coming soon!');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,50 +1,282 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en" data-theme="night">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Price Tracker</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="/resources/css/style.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>CryptoQuest Dashboard</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between">
-                <div class="flex space-x-7">
-                    <div class="flex items-center py-4">
-                        <span class="font-semibold text-gray-500 text-lg">Crypto Tracker</span>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <div class="flex items-center">
-                        <span class="text-gray-500">Level: <span id="userLevel">1</span></span>
-                        <span class="ml-4 text-gray-500">XP: <span id="userXP">0</span></span>
+<body class="bg-base-200 min-h-screen">
+    <!-- Navigation -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="navbar bg-base-100 shadow-xl">
+            <div class="navbar-start">
+                <a href="index.html" class="btn btn-ghost text-xl">
+                    <i class="fas fa-chart-line mr-2"></i>CryptoTracker
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="index.html" class="active">Dashboard</a></li>
+                    <li><a href="markets.html">Markets</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="navbar-end">
+                <div class="flex items-center space-x-4">
+                    <button class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                            </div>
+                        </div>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Profile</a></li>
+                            <li><a>Settings</a></li>
+                            <li><a>Logout</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Prijzen Sectie -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Crypto Prijzen</h2>
-                <div id="priceList" class="space-y-4"></div>
-            </div>
-
-            <!-- Grafiek Sectie -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Prijsverloop</h2>
-                <canvas id="priceChart"></canvas>
+    <!-- Main Dashboard Content -->
+    <div class="container mx-auto px-4 pt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Market Overview Cards -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-globe-americas mr-2"></i>
+                    Global Market Cap
+                </h2>
+                <div class="stat">
+                    <div class="stat-value text-primary">$1.2T</div>
+                    <div class="stat-desc text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        2.45% (24h)
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-4">
+                    <div class="text-center">
+                        <div class="text-sm font-bold">BTC Dom</div>
+                        <div class="text-primary">45.3%</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-sm font-bold">Trades</div>
+                        <div class="text-secondary">1.5M</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-sm font-bold">Volume</div>
+                        <div class="text-accent">$89B</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
 
+        <!-- Top Cryptocurrencies -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-coins mr-2"></i>
+                    Top Cryptocurrencies
+                </h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="w-8 h-8" />
+                            <span>Bitcoin</span>
+                        </div>
+                        <div class="text-right">
+                            <div>$45,678</div>
+                            <div class="text-green-500 text-sm">+2.3%</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" class="w-8 h-8" />
+                            <span>Ethereum</span>
+                        </div>
+                        <div class="text-right">
+                            <div>$3,245</div>
+                            <div class="text-red-500 text-sm">-1.2%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Performance -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-wallet mr-2"></i>
+                    Portfolio Performance
+                </h2>
+                <div class="stat">
+                    <div class="stat-value text-secondary">$56,789</div>
+                    <div class="stat-desc text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        5.6% (24h)
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-4">
+                    <div class="text-center">
+                        <div class="text-sm font-bold">Coins</div>
+                        <div class="text-primary">7</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-sm font-bold">Profit</div>
+                        <div class="text-green-500">+$3,200</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-sm font-bold">Allocation</div>
+                        <div class="text-accent">Diversified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cryptocurrency Market Table -->
+        <div class="card bg-base-100 shadow-xl col-span-3">
+            <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Cryptocurrency Markets
+                    </h2>
+                    <div class="join">
+                        <button class="btn btn-sm join-item btn-primary">Gainers</button>
+                        <button class="btn btn-sm join-item">Losers</button>
+                        <button class="btn btn-sm join-item">Volume</button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="table table-compact w-full">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>Market Cap</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" class="w-8 h-8" />
+                                        <div>
+                                            <div class="font-bold">Bitcoin</div>
+                                            <div class="text-sm opacity-50">BTC</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$45,678</td>
+                                <td className="text-green-500">+2.3%</td>
+                                <td>$876B</td>
+                                <td>
+                                    <div className="flex items-center space-x-2">
+                                        <button className="btn btn-xs btn-primary">
+                                            <i className="fas fa-plus mr-1"></i>Track
+                                        </button>
+                                        <button className="btn btn-xs btn-ghost btn-square">
+                                            <i className="fas fa-star text-yellow-500"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- More cryptocurrency rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market News & Insights -->
+        <div class="card bg-base-100 shadow-xl col-span-2">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-newspaper mr-2"></i>
+                    Market News
+                </h2>
+                <div class="space-y-4">
+                    <div class="alert bg-base-200">
+                        <div>
+                            <h3 class="font-bold">Bitcoin Reaches New Milestone</h3>
+                            <p class="text-xs">Major institutional investments drive crypto market growth</p>
+                        </div>
+                    </div>
+                    <div class="alert bg-base-200">
+                        <div>
+                            <h3 class="font-bold">Ethereum Network Upgrade</h3>
+                            <p class="text-xs">New scalability improvements announced</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions & Alerts -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fas fa-bell mr-2"></i>
+                    Alerts & Actions
+                </h2>
+                <div class="space-y-2">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span>Bitcoin price approaching support level</span>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <span>New trading opportunity detected</span>
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus mr-1"></i>
+                            Add Alert
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-base-100 text-base-content mt-6">
+        <div>
+            <span class="footer-title">Services</span> 
+            <a class="link link-hover">Market Data</a>
+            <a class="link link-hover">Portfolio Tracking</a>
+            <a class="link link-hover">Trading Tools</a>
+        </div>
+        <div>
+            <span class="footer-title">Resources</span> 
+            <a class="link link-hover">Market Analysis</a>
+            <a class="link link-hover">Crypto Education</a>
+            <a class="link link-hover">Community</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/resources/js/api.js"></script>
     <script src="/resources/js/chart.js"></script>
     <script src="/resources/js/gamification.js"></script>
 </body>
-</html> 
+</html>
