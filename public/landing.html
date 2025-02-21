@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoTracker - Your Journey into Crypto Trading</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-base-200">
+    <!-- Navigation -->
+    <div class="navbar bg-base-100 fixed top-0 z-50 shadow-xl">
+        <div class="navbar-start">
+            <a href="landing.html" class="btn btn-ghost text-xl">
+                <i class="fas fa-chart-line mr-2"></i>
+                <span class="hidden sm:inline">CryptoTracker</span>
+            </a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+            <a href="index.html" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero min-h-screen bg-base-200 pt-16">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <img src="https://placehold.co/600x400" class="max-w-sm rounded-lg shadow-2xl" alt="Trading Dashboard" />
+            <div>
+                <h1 class="text-5xl font-bold">Start Your Crypto Journey Today</h1>
+                <p class="py-6">Learn cryptocurrency trading in a safe, educational environment. Track your portfolio, practice trading, and master the crypto market with our comprehensive platform.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="index.html" class="btn btn-primary">Start Trading</a>
+                    <a href="#features" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="stats shadow mt-6">
+                    <div class="stat">
+                        <div class="stat-title">Active Users</div>
+                        <div class="stat-value">10K+</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">Trading Volume</div>
+                        <div class="stat-value">$2M+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">Why Choose CryptoTracker?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <i class="fas fa-graduation-cap text-4xl text-primary mb-4"></i>
+                        <h3 class="card-title">Educational Platform</h3>
+                        <p>Learn crypto trading through interactive lessons and real-world simulations.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line text-4xl text-secondary mb-4"></i>
+                        <h3 class="card-title">Portfolio Tracking</h3>
+                        <p>Monitor your investments and track performance in real-time.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <i class="fas fa-shield-alt text-4xl text-accent mb-4"></i>
+                        <h3 class="card-title">Safe Practice</h3>
+                        <p>Practice trading with virtual currency in a risk-free environment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="py-16 bg-base-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="rounded-full bg-primary w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Create Account</h3>
+                    <p>Sign up and get instant access to our platform.</p>
+                </div>
+                <div class="text-center">
+                    <div class="rounded-full bg-secondary w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Learn Basics</h3>
+                    <p>Complete interactive lessons and tutorials.</p>
+                </div>
+                <div class="text-center">
+                    <div class="rounded-full bg-accent w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Start Trading</h3>
+                    <p>Practice trading with virtual currency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div id="testimonials" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://i.pravatar.cc/150?img=1" alt="User Avatar" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="font-bold">Sarah Johnson</h3>
+                                <p class="text-sm opacity-70">Beginner Trader</p>
+                            </div>
+                        </div>
+                        <p>"Perfect platform for learning crypto trading. The simulated trading environment helped me gain confidence."</p>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://i.pravatar.cc/150?img=2" alt="User Avatar" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="font-bold">Michael Chen</h3>
+                                <p class="text-sm opacity-70">Experienced Investor</p>
+                            </div>
+                        </div>
+                        <p>"The portfolio tracking features are excellent. Great platform for both beginners and experienced traders."</p>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img src="https://i.pravatar.cc/150?img=3" alt="User Avatar" />
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="font-bold">Emma Davis</h3>
+                                <p class="text-sm opacity-70">Student</p>
+                            </div>
+                        </div>
+                        <p>"The educational resources are fantastic. I learned so much about cryptocurrency trading in just a few weeks."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-base-100 py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Start Your Journey?</h2>
+            <p class="mb-8 max-w-2xl mx-auto">Join thousands of users who are learning and practicing cryptocurrency trading in a safe environment.</p>
+            <a href="index.html" class="btn btn-primary btn-lg">Get Started Now</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-base-200 text-base-content">
+        <div>
+            <span class="footer-title">Juridisch</span> 
+            <a href="services/Gebruikersvoorwaarden.html" class="link link-hover">Gebruikersvoorwaarden</a>
+            <a href="services/Privacybeleid.html" class="link link-hover">Privacybeleid</a>
+            <a href="services/cookiebeleid.html" class="link link-hover">Cookiebeleid</a>
+        </div>
+        <div>
+            <span class="footer-title">Resources</span> 
+            <a class="link link-hover">Market Analysis</a>
+            <a class="link link-hover">Crypto Education</a>
+            <a class="link link-hover">Community</a>
+        </div>
+        <div>
+            <span class="footer-title">Social</span> 
+            <div class="grid grid-flow-col gap-4">
+                <a><i class="fab fa-twitter text-2xl"></i></a>
+                <a><i class="fab fa-facebook text-2xl"></i></a>
+                <a><i class="fab fa-instagram text-2xl"></i></a>
+                <a><i class="fab fa-linkedin text-2xl"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

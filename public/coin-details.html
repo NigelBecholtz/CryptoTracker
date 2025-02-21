@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Details - CryptoTracker</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-base-200 min-h-screen">
+    <!-- Navigation -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="navbar bg-base-100 shadow-xl">
+           <div class="navbar-start">
+               <div class="dropdown lg:hidden">
+                   <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                       <i class="fas fa-bars"></i>
+                   </div>
+                   <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                       <li><a href="index.html">Dashboard</a></li>
+                       <li><a href="markets.html">Markets</a></li>
+                       <li><a href="portfolio.html">Portfolio</a></li>
+                   </ul>
+               </div>
+               <a href="index.html" class="btn btn-ghost text-xl">
+                   <i class="fas fa-chart-line mr-2"></i>
+                   <span class="hidden sm:inline">CryptoTracker</span>
+               </a>
+           </div>
+           <div class="navbar-center hidden lg:flex">
+               <ul class="menu menu-horizontal px-1">
+                   <li><a href="index.html">Dashboard</a></li>
+                   <li><a href="markets.html">Markets</a></li>
+                   <li><a href="portfolio.html">Portfolio</a></li>
+               </ul>
+           </div>
+           <div class="navbar-end">
+               <div class="flex items-center space-x-4">
+                   <button class="btn btn-ghost btn-circle">
+                       <i class="fas fa-bell"></i>
+                   </button>
+                   <div class="dropdown dropdown-end">
+                       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                           <div class="w-10 rounded-full">
+                               <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                           </div>
+                       </div>
+                       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                           <li><a>Profile</a></li>
+                           <li><a>Settings</a></li>
+                           <li><a>Logout</a></li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 pt-24">
+        <!-- Coin Header -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="avatar placeholder">
+                            <div id="coinIcon" class="bg-neutral-focus text-neutral-content rounded-full w-16">
+                                <span class="text-xl" id="coinInitials">BTC</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-bold" id="coinName">Loading...</h1>
+                            <p class="text-lg opacity-70" id="coinSymbol">...</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-mono" id="coinPrice">$0.00</div>
+                        <div class="text-lg" id="priceChange">
+                            <span class="loading loading-spinner loading-sm"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Chart -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+            <div class="card-body">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="card-title">Price Chart</h2>
+                    <div class="join">
+                        <button class="join-item btn btn-sm" data-timeframe="1HRS" data-limit="24">24H</button>
+                        <button class="join-item btn btn-sm" data-timeframe="12HRS" data-limit="14">7D</button>
+                        <button class="join-item btn btn-sm" data-timeframe="1DAY" data-limit="30">30D</button>
+                    </div>
+                </div>
+                <div class="h-[400px] w-full">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">Market Cap</h2>
+                    <div class="stat">
+                        <div class="stat-value text-primary" id="marketCap">$0.00</div>
+                        <div class="stat-desc" id="marketCapRank">Rank #0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">Volume (24h)</h2>
+                    <div class="stat">
+                        <div class="stat-value text-secondary" id="volume24h">$0.00</div>
+                        <div class="stat-desc" id="volumeChange">0.00%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">Supply</h2>
+                    <div class="stat">
+                        <div class="stat-value text-accent" id="supply">0</div>
+                        <div class="stat-desc" id="maxSupply">Max: 0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-base-100 text-base-content mt-6">
+        <div>
+            <span class="footer-title">Juridisch</span> 
+            <a href="services/Gebruikersvoorwaarden.html" class="link link-hover">Gebruikersvoorwaarden</a>
+            <a href="services/Privacybeleid.html" class="link link-hover">Privacybeleid</a>
+            <a href="services/cookiebeleid.html" class="link link-hover">Cookiebeleid</a>
+        </div>
+        <div>
+            <span class="footer-title">Resources</span> 
+            <a class="link link-hover">Market Analysis</a>
+            <a class="link link-hover">Crypto Education</a>
+            <a class="link link-hover">Community</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../resources/js/api.js"></script>
+    <script src="../resources/js/chart.js"></script>
+    <script>
+        let currentCoin = null;
+        let priceChart = null;
+        let currentTimeframe = {
+            periodId: '1DAY',
+            limit: 30
+        };
+
+        // Helper function to format numbers
+        function formatNumber(number) {
+            if (number >= 1e12) return (number / 1e12).toFixed(2) + 'T';
+            if (number >= 1e9) return (number / 1e9).toFixed(2) + 'B';
+            if (number >= 1e6) return (number / 1e6).toFixed(2) + 'M';
+            if (number >= 1e3) return (number / 1e3).toFixed(2) + 'K';
+            return number.toFixed(2);
+        }
+
+        // Get coin ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const coinId = urlParams.get('id');
+
+        async function loadCoinDetails() {
+            try {
+                // Get both asset details and OHLCV data
+                const [asset, ohlcvData] = await Promise.all([
+                    CryptoAPI.getAsset(coinId),
+                    CryptoAPI.getOHLCV(coinId, currentTimeframe.periodId, currentTimeframe.limit)
+                ]);
+
+                if (!asset) {
+                    throw new Error('Coin not found');
+                }
+
+                currentCoin = asset;
+                updateUI(asset);
+                try {
+                    if (ohlcvData && Array.isArray(ohlcvData)) {
+                        updatePriceChart(ohlcvData);
+                    }
+                } catch (chartError) {
+                    console.error('Error updating chart:', chartError);
+                    document.getElementById('priceChart').parentElement.innerHTML = 
+                        '<div class="text-center text-error"><i class="fas fa-exclamation-triangle mr-2"></i>Error loading price chart</div>';
+                }
+            } catch (error) {
+                console.error('Error loading coin details:', error);
+                // Show error message to user
+                document.getElementById('coinName').textContent = 'Error loading coin data';
+                document.getElementById('coinSymbol').textContent = 'Please try again later';
+                document.getElementById('priceChange').innerHTML = '<i class="fas fa-exclamation-triangle text-error"></i>';
+            }
+        }
+
+        function updateUI(asset) {
+            if (!asset) return;
+
+            document.title = `${asset.name} (${asset.asset_id}) - CryptoTracker`;
+            document.getElementById('coinName').textContent = asset.name || 'N/A';
+            document.getElementById('coinSymbol').textContent = asset.asset_id || 'N/A';
+            document.getElementById('coinInitials').textContent = asset.asset_id?.substring(0, 2) || 'XX';
+            document.getElementById('coinPrice').textContent = asset.price_usd ? `$${asset.price_usd.toFixed(2)}` : 'N/A';
+            
+            // Calculate 24h price change
+            const priceChange = asset.price_usd_change_percent_24h || 0;
+            const priceChangeElement = document.getElementById('priceChange');
+            priceChangeElement.innerHTML = `
+                <span class="${priceChange >= 0 ? 'text-success' : 'text-error'}">
+                    <i class="fas fa-${priceChange >= 0 ? 'arrow-up' : 'arrow-down'} mr-1"></i>
+                    ${priceChange >= 0 ? '+' : ''}${Math.abs(priceChange).toFixed(2)}%
+                </span>
+            `;
+
+            // Update market stats
+            document.getElementById('marketCap').textContent = `$${formatNumber(asset.volume_1day_usd || 0)}`;
+            document.getElementById('volume24h').textContent = `$${formatNumber(asset.volume_1day_usd || 0)}`;
+            document.getElementById('supply').textContent = formatNumber(asset.volume_1day_usd || 0);
+            document.getElementById('marketCapRank').textContent = `Rank #${asset.rank || 'N/A'}`;
+            const volumeChange = asset.volume_1day_usd_change_percent || 0;
+            document.getElementById('volumeChange').innerHTML = `
+                <span class="${volumeChange >= 0 ? 'text-success' : 'text-error'}">
+                    <i class="fas fa-${volumeChange >= 0 ? 'arrow-up' : 'arrow-down'} mr-1"></i>
+                    ${volumeChange >= 0 ? '+' : ''}${Math.abs(volumeChange).toFixed(2)}%
+                </span>
+            `;
+            document.getElementById('maxSupply').textContent = asset.max_supply ? `Max: ${formatNumber(asset.max_supply)}` : 'No max supply';
+        }
+
+        function updatePriceChart(ohlcvData) {
+            if (!currentCoin) return;
+
+            if (!ohlcvData || !Array.isArray(ohlcvData)) {
+                console.error('Invalid OHLCV data');
+                return;
+            }
+
+            // Sort data by time to ensure correct order
+            const sortedData = [...ohlcvData].sort((a, b) => new Date(a.time_period_start) - new Date(b.time_period_start));
+
+            // Format dates and prices
+            const labels = sortedData.map(item => {
+                const date = new Date(item.time_period_start);
+                // Adjust date format based on timeframe
+                if (currentTimeframe.periodId === '1HRS') {
+                    return date.toLocaleTimeString('en-US', { 
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } else if (currentTimeframe.periodId === '12HRS') {
+                    return date.toLocaleDateString('en-US', { 
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit'
+                    });
+                } else {
+                    return date.toLocaleDateString('en-US', { 
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                }
+            });
+
+            const prices = sortedData.map(item => parseFloat(item.rate_close || item.rate));
+
+            // Calculate price change for color and percentage
+            const firstPrice = prices[0];
+            const lastPrice = prices[prices.length - 1];
+            const priceChange = ((lastPrice - firstPrice) / firstPrice) * 100;
+            const isPositive = priceChange >= 0;
+            const chartColor = isPositive ? '#4ade80' : '#ef4444';
+
+            // Update the price change display
+            const priceChangeElement = document.getElementById('priceChange');
+            priceChangeElement.innerHTML = `
+                <span class="${isPositive ? 'text-success' : 'text-error'}">
+                    <i class="fas fa-${isPositive ? 'arrow-up' : 'arrow-down'} mr-1"></i>
+                    ${isPositive ? '+' : ''}${Math.abs(priceChange).toFixed(2)}%
+                </span>
+            `;
+
+            // Update the time period in the price display
+            let timePeriodText;
+            switch(currentTimeframe.periodId) {
+                case '1HRS':
+                    timePeriodText = '24h';
+                    break;
+                case '12HRS':
+                    timePeriodText = '7d';
+                    break;
+                case '1DAY':
+                    timePeriodText = '30d';
+                    break;
+            }
+            document.getElementById('coinPrice').innerHTML = `
+                $${lastPrice.toFixed(2)}
+                <span class="text-sm opacity-60">${timePeriodText}</span>
+            `;
+
+            if (priceChart) {
+                priceChart.destroy();
+            }
+
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `${currentCoin.name} Price`,
+                        data: prices,
+                        borderColor: chartColor,
+                        backgroundColor: `${chartColor}20`,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHitRadius: 20,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `$${context.parsed.y.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                callback: value => '$' + value.toFixed(2)
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 8,
+                                maxRotation: 0
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    hover: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Add timeframe selection functionality
+        async function updateTimeframe(button) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.join-item').forEach(btn => {
+                btn.classList.remove('btn-active');
+            });
+            // Add active class to clicked button
+            button.classList.add('btn-active');
+
+            // Update timeframe
+            currentTimeframe.periodId = button.dataset.timeframe;
+            currentTimeframe.limit = parseInt(button.dataset.limit);
+
+            try {
+                // Show loading state
+                document.getElementById('priceChange').innerHTML = '<span class="loading loading-spinner loading-sm"></span>';
+                const newData = await CryptoAPI.getOHLCV(coinId, currentTimeframe.periodId, currentTimeframe.limit);
+                if (newData && Array.isArray(newData)) {
+                    updatePriceChart(newData);
+                }
+            } catch (error) {
+                console.error('Error updating chart:', error);
+                document.getElementById('priceChange').innerHTML = 
+                    '<span class="text-error"><i class="fas fa-exclamation-triangle mr-1"></i>Error</span>';
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            if (coinId) {
+                loadCoinDetails();
+                // Set up timeframe button listeners
+                document.querySelectorAll('.join-item').forEach(button => {
+                    button.addEventListener('click', () => updateTimeframe(button));
+                });
+                // Activate default timeframe button
+                document.querySelector('[data-timeframe="1DAY"]').classList.add('btn-active');
+            } else {
+                window.location.href = 'markets.html';
+            }
+        });
+    </script>
+</body>
+</html> 

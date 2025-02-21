@@ -17,8 +17,20 @@
     <div class="fixed top-0 left-0 right-0 z-50">
         <div class="navbar bg-base-100 shadow-xl">
             <div class="navbar-start">
+                <!-- Add mobile menu drawer -->
+                <div class="dropdown lg:hidden">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li><a href="markets.html" class="active">Markets</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                    </ul>
+                </div>
                 <a href="index.html" class="btn btn-ghost text-xl">
-                    <i class="fas fa-chart-line mr-2"></i>CryptoTracker
+                    <i class="fas fa-chart-line mr-2"></i>
+                    <span class="hidden sm:inline">CryptoTracker</span>
                 </a>
             </div>
             <div class="navbar-center hidden lg:flex">
@@ -55,7 +67,7 @@
         <!-- Main Markets Content -->
         <div class="container mx-auto px-4 pt-24">
             <!-- Market Overview Section -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
                 <div class="card bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title">
@@ -64,9 +76,11 @@
                         </h2>
                         <div class="stat">
                             <div class="stat-value text-primary">$1.2T</div>
-                            <div class="stat-desc text-green-500">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                2.45% (24h)
+                            <div class="stat-desc text-success">
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+2.45% (24h)</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,9 +93,11 @@
                         </h2>
                         <div class="stat">
                             <div class="stat-value text-secondary">$89B</div>
-                            <div class="stat-desc text-green-500">
-                                <i class="fas fa-arrow-up mr-1"></i>
-                                1.8% (24h)
+                            <div class="stat-desc text-success">
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+1.8% (24h)</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,55 +119,54 @@
             <!-- Cryptocurrency Markets Table -->
             <div class="card bg-base-100 shadow-xl">
                 <div class="card-body">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
                         <h2 class="card-title">
                             <i class="fas fa-chart-line mr-2"></i>
                             Cryptocurrency Markets
                         </h2>
-                        <div class="flex items-center space-x-4">
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+                            <!-- Loading indicator -->
+                            <div id="loadingIndicator" class="hidden">
+                                <span class="loading loading-spinner loading-md"></span>
+                            </div>
                             <!-- Search Bar -->
-                            <div class="form-control w-full max-w-xs relative">
+                            <div class="form-control w-full sm:w-64">
                                 <div class="relative">
                                     <input 
                                         type="text" 
                                         placeholder="Search Cryptocurrencies" 
                                         class="input input-bordered input-sm w-full pr-10" 
                                         id="cryptoSearchInput"
+                                        onkeyup="filterMarkets()"
                                     />
-                                    <button class="absolute right-0 top-0 rounded-l-none btn btn-sm btn-primary">
+                                    <button class="absolute right-0 top-0 rounded-l-none btn btn-sm btn-ghost">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
-                                <!-- Dropdown for search results -->
-                                <ul id="cryptoSearchResults" class="absolute z-10 mt-2 w-full bg-base-100 rounded-box shadow-lg hidden max-h-64 overflow-y-auto">
-                                    <!-- Search results will be dynamically populated here -->
-                                </ul>
-                            </div>
-
-                            <!-- Market Filters -->
-                            <div class="join">
-                                <button class="btn btn-sm join-item btn-primary">Top 100</button>
-                                <button class="btn btn-sm join-item">Gainers</button>
-                                <button class="btn btn-sm join-item">Losers</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table class="table table-compact w-full" id="cryptoMarketsTable">
+                        <table class="table table-zebra w-full">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th class="hidden sm:table-cell">#</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th>24h Change</th>
-                                    <th>Market Cap</th>
-                                    <th>Volume (24h)</th>
+                                    <th class="hidden sm:table-cell">24h Change</th>
+                                    <th class="hidden md:table-cell">Market Cap</th>
+                                    <th class="hidden lg:table-cell">Volume (24h)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="cryptoTableBody">
-                                <!-- Cryptocurrency rows will be dynamically populated -->
+                                <!-- Loading placeholder -->
+                                <tr id="loadingPlaceholder">
+                                    <td colspan="7" class="text-center py-4">
+                                        <span class="loading loading-spinner loading-lg"></span>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -163,10 +178,10 @@
     <!-- Footer - aangepaste styling -->
     <footer class="footer p-10 bg-base-100 text-base-content mt-auto">
         <div>
-            <span class="footer-title">Services</span> 
-            <a class="link link-hover">Market Data</a>
-            <a class="link link-hover">Portfolio Tracking</a>
-            <a class="link link-hover">Trading Tools</a>
+            <span class="footer-title">Juridisch</span> 
+            <a href="services/Gebruikersvoorwaarden.html" class="link link-hover">Gebruikersvoorwaarden</a>
+            <a href="services/Privacybeleid.html" class="link link-hover">Privacybeleid</a>
+            <a href="services/cookiebeleid.html" class="link link-hover">Cookiebeleid</a>
         </div>
         <div>
             <span class="footer-title">Resources</span> 
@@ -175,5 +190,8 @@
             <a class="link link-hover">Community</a>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="/resources/js/api.js"></script>
 </body>
 </html>

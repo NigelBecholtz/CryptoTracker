@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookiebeleid - CryptoTracker</title>
+    
+    <!-- Tailwind CSS and DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-base-200 min-h-screen">
+    <!-- Navigation (zelfde als gebruikersvoorwaarden) -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="navbar bg-base-100 shadow-xl">
+            <div class="navbar-start">
+                <div class="dropdown lg:hidden">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a href="../index.html">Dashboard</a></li>
+                        <li><a href="../markets.html">Markets</a></li>
+                        <li><a href="../portfolio.html">Portfolio</a></li>
+                    </ul>
+                </div>
+                <a href="../index.html" class="btn btn-ghost text-xl">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    <span class="hidden sm:inline">CryptoTracker</span>
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="../markets.html">Markets</a></li>
+                    <li><a href="../portfolio.html">Portfolio</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 pt-24">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h1 class="text-3xl font-bold mb-6">Cookiebeleid</h1>
+                
+                <div class="space-y-6">
+                    <section>
+                        <h2 class="text-xl font-semibold mb-3">Wat zijn cookies?</h2>
+                        <p>Cookies zijn kleine tekstbestanden die op uw apparaat worden opgeslagen wanneer u onze website bezoekt. Ze helpen om uw gebruikerservaring te verbeteren en ons inzicht te geven in hoe onze website wordt gebruikt.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-semibold mb-3">Welke cookies gebruiken we?</h2>
+                        <div class="overflow-x-auto -mx-4 sm:mx-0">
+                            <table class="table table-zebra w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-base-200">Type Cookie</th>
+                                        <th class="bg-base-200">Doel</th>
+                                        <th class="bg-base-200 hidden sm:table-cell">Duur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-medium">Noodzakelijke cookies</td>
+                                        <td>Voor de basisfunctionaliteit van de website</td>
+                                        <td class="hidden sm:table-cell">Sessie</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-medium">Analytische cookies</td>
+                                        <td>Voor het analyseren van websitegebruik</td>
+                                        <td class="hidden sm:table-cell">2 jaar</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-medium">Functionele cookies</td>
+                                        <td>Voor het onthouden van voorkeuren</td>
+                                        <td class="hidden sm:table-cell">1 jaar</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Mobile-only cookie duration info -->
+                        <div class="sm:hidden mt-4 space-y-2">
+                            <h3 class="font-semibold">Cookie Duur:</h3>
+                            <ul class="list-disc ml-4">
+                                <li>Noodzakelijke cookies: Sessie</li>
+                                <li>Analytische cookies: 2 jaar</li>
+                                <li>Functionele cookies: 1 jaar</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2 class="text-xl font-semibold mb-3">Cookie-instellingen</h2>
+                        <p>U kunt uw cookie-voorkeuren op elk moment aanpassen via de instellingen van uw browser. Houd er rekening mee dat het uitschakelen van bepaalde cookies de functionaliteit van de website kan beïnvloeden.</p>
+                    </section>
+                </div>
+
+                <div class="mt-8">
+                    <p class="text-sm">Laatste update: 1 maart 2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (zelfde als gebruikersvoorwaarden) -->
+    <footer class="footer p-10 bg-base-100 text-base-content mt-6">
+        <div>
+            <span class="footer-title">Juridisch</span> 
+            <a href="Gebruikersvoorwaarden.html" class="link link-hover">Gebruikersvoorwaarden</a>
+            <a href="Privacybeleid.html" class="link link-hover">Privacybeleid</a>
+            <a href="cookiebeleid.html" class="link link-hover">Cookiebeleid</a>
+        </div>
+    </footer>
+</body>
+</html>
