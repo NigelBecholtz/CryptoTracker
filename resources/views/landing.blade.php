@@ -26,8 +26,8 @@
                         <i class="fas fa-bars"></i>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ route('markets') }}">Markets</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('market') }}">Market</a></li>
                         <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                     </ul>
                 </div>
@@ -38,8 +38,8 @@
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('markets') }}">Markets</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('market') }}">Market</a></li>
                     <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                 </ul>
             </div>
@@ -52,12 +52,12 @@
                         <div class="dropdown dropdown-end">
                             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                                 <div class="w-10 rounded-full">
-                                    <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                                    <img alt="User Avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=cryptouser" />
                                 </div>
                             </div>
                             <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li><a href="{{ route('markets') }}">Markets</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
+                                <li><a href="{{ route('market') }}">Market</a></li>
                                 <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                                 <li><form method="POST" action="{{ route('logout') }}">
                                     @csrf

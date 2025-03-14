@@ -23,8 +23,8 @@
                         <i class="fas fa-bars"></i>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ route('markets') }}" class="active">Markets</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('market') }}" class="active">Market</a></li>
                         <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                     </ul>
                 </div>
@@ -35,8 +35,8 @@
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('markets') }}" class="active">Markets</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('market') }}" class="active">Market</a></li>
                     <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
                 </ul>
             </div>
@@ -48,7 +48,7 @@
                     <div class="dropdown dropdown-end">
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                             <div class="w-10 rounded-full">
-                                <img alt="User Avatar" src="https://avatars.dicebear.com/api/avataaars/cryptouser.svg" />
+                                <img alt="User Avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=cryptouser" />
                             </div>
                         </div>
                         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -75,8 +75,8 @@
                             Global Market Cap
                         </h2>
                         <div class="stat">
-                            <div class="stat-value text-primary">$1.2T</div>
-                            <div class="stat-desc text-success">
+                            <div id="total-market-cap" class="stat-value text-primary">$1.2T</div>
+                            <div id="avg-percent-change" class="stat-desc text-success">
                                 <div class="flex items-center gap-1">
                                     <i class="fas fa-arrow-up"></i>
                                     <span>+2.45% (24h)</span>
@@ -92,7 +92,7 @@
                             Total Volume
                         </h2>
                         <div class="stat">
-                            <div class="stat-value text-secondary">$89B</div>
+                            <div id="total-volume" class="stat-value text-secondary">$89B</div>
                             <div class="stat-desc text-success">
                                 <div class="flex items-center gap-1">
                                     <i class="fas fa-arrow-up"></i>
@@ -126,7 +126,7 @@
                         </h2>
                         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
                             <!-- Loading indicator -->
-                            <div id="loadingIndicator" class="hidden">
+                            <div id="loading-indicator" class="hidden">
                                 <span class="loading loading-spinner loading-md"></span>
                             </div>
                             <!-- Search Bar -->
@@ -136,8 +136,7 @@
                                         type="text" 
                                         placeholder="Search Cryptocurrencies" 
                                         class="input input-bordered input-sm w-full pr-10" 
-                                        id="cryptoSearchInput"
-                                        onkeyup="filterMarkets()"
+                                        id="market-search"
                                     />
                                     <button class="absolute right-0 top-0 rounded-l-none btn btn-sm btn-ghost">
                                         <i class="fas fa-search"></i>
@@ -160,9 +159,9 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="cryptoTableBody">
+                            <tbody id="markets-table-body">
                                 <!-- Loading placeholder -->
-                                <tr id="loadingPlaceholder">
+                                <tr id="loading-placeholder">
                                     <td colspan="7" class="text-center py-4">
                                         <span class="loading loading-spinner loading-lg"></span>
                                     </td>
@@ -193,13 +192,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/api.js') }}"></script>
-    <script>
-        // Initialize market data when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            displayMarketData();
-            // Refresh data every 1 minute
-            setInterval(displayMarketData, 60000);
-        });
-    </script>
+    <script src="{{ asset('js/compatibility.js') }}"></script>
+    <script src="{{ asset('js/markets.js') }}"></script>
 </body>
 </html>
