@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -14,10 +15,6 @@ Route::middleware(['auth'])->group(function () {
         return view('index');
     })->name('home');
     
-    Route::get('/index', function () {
-        return view('index');
-    })->name('index');
-    
     Route::get('/market', function () {
         return view('markets');
     })->name('market');
@@ -25,6 +22,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/portfolio', function () {
         return view('portfolio');
     })->name('portfolio');
+    
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
     
     // Coin details route
     Route::get('/coin/{symbol}', function ($symbol) {

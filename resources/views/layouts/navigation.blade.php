@@ -15,6 +15,12 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('market')" :active="request()->routeIs('market')">
+                        {{ __('Market') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('portfolio')" :active="request()->routeIs('portfolio')">
+                        {{ __('Portfolio') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -36,6 +42,10 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('settings')">
+                            {{ __('Settings') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -70,6 +80,12 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('market')" :active="request()->routeIs('market')">
+                {{ __('Market') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('portfolio')" :active="request()->routeIs('portfolio')">
+                {{ __('Portfolio') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -82,6 +98,10 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('settings')">
+                    {{ __('Settings') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
