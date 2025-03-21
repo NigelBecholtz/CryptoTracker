@@ -54,7 +54,14 @@
                         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><a href="{{ route('profile.edit') }}">Profile</a></li>
                             <li><a>Settings</a></li> <? /* There is no settings page yet - TODO */ ?>
-                            <li><a>Logout</a></li> <? /* There is no logout page yet - TODO */?>
+                            <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                        Logout
+                                    </a>
+                                </form>
+                            </li> 
                         </ul>
                     </div>
                 </div>

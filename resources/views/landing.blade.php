@@ -56,13 +56,15 @@
                                 </div>
                             </div>
                             <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a href="{{ route('home') }}">Home</a></li>
-                                <li><a href="{{ route('market') }}">Market</a></li>
-                                <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
-                                <li><form method="POST" action="{{ route('logout') }}">
+                            <li><a href="{{ route('profile.edit') }}">Profile</a></li>
+                            <li><a>Settings</a></li> <? /* There is no settings page yet - TODO */ ?>
+                            <li> <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit">Logout</button>
-                                </form></li>
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                        Logout
+                                    </a>
+                                </form>
+                            </li> 
                             </ul>
                         </div>
                     @else
