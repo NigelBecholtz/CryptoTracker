@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
-    return view('index');
-})->name('index');
-
-Route::get('/landing', function () {
     return view('landing');
 })->name('landing');
 
@@ -17,6 +13,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
         return view('index');
     })->name('home');
+    
+    Route::get('/index', function () {
+        return view('index');
+    })->name('index');
     
     Route::get('/market', function () {
         return view('markets');
