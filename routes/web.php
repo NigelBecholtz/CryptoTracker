@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\CoinController;
 
 // Public routes
 Route::get('/', function () {
@@ -19,18 +21,15 @@ Route::middleware(['auth'])->group(function () {
         return view('markets');
     })->name('market');
     
-    Route::get('/portfolio', function () {
-        return view('portfolio');
-    })->name('portfolio');
+    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
     
     // Settings routes
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
     
     // Coin details route
-    Route::get('/coin/{symbol}', function ($symbol) {
-        return view('coin-details', ['symbol' => $symbol]);
-    })->name('coin.details');
+    // Replace the existing coin details route with this:
+    Route::get('/coin/{symbol}', [CoinController::class, 'show'])->name('coin.details');
     
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

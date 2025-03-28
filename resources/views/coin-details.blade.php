@@ -144,6 +144,33 @@
                     </div>
                 </div>
             </div>
+            <!-- Replace the existing buy card with this -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Buy {{ $coinName }}
+                    </h2>
+                    <form id="buyForm" class="space-y-4">
+                        @csrf
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Amount (€)</span>
+                                <span class="label-text-alt">Balance: €{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                            </label>
+                            <input type="number" id="investAmount" name="amount" step="0.01" min="0.01" 
+                                   max="{{ Auth::user()->wallet_balance }}" 
+                                   class="input input-bordered" required>
+                            <label class="label">
+                                <span class="label-text-alt">You will receive: <span id="coinAmount">0</span> {{ $symbol }}</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full">
+                            Buy {{ $symbol }}
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -169,4 +196,4 @@
     <script src="{{ asset('js/compatibility.js') }}"></script>
     <script src="{{ asset('js/coin-details.js') }}"></script>
 </body>
-</html> 
+</html>

@@ -31,6 +31,11 @@
             </div>
             <div class="navbar-end">
                 <div class="flex items-center space-x-4">
+                    <!-- Wallet Balance -->
+                    <div class="hidden sm:flex items-center gap-2">
+                        <i class="fas fa-wallet text-primary"></i>
+                        <span class="text-primary font-semibold">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                    </div>
                     <button class="btn btn-ghost btn-circle">
                         <i class="fas fa-bell"></i>
                     </button>
@@ -62,6 +67,20 @@
     <div class="container mx-auto px-4 pt-24">
         <!-- Profile Overview -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <!-- Wallet Balance Card - Add this first -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-wallet mr-2"></i>
+                        Wallet Balance
+                    </h2>
+                    <div class="stat px-0">
+                        <div class="stat-value text-primary">€{{ number_format(Auth::user()->wallet_balance, 2) }}</div>
+                        <div class="stat-desc">Available for trading</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Profile Information -->
             <div class="card bg-base-100 shadow-xl">
                 <div class="card-body">
@@ -192,3 +211,22 @@
 
     <!-- Scripts -->
     <script src="https
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <!-- Add this card before your existing profile cards -->
+            <div class="p-4 sm:p-8 bg-base-100 shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <h2 class="text-lg font-medium">
+                        <i class="fas fa-wallet mr-2"></i>
+                        Wallet Balance
+                    </h2>
+                    <p class="mt-1 text-sm text-gray-400">
+                        Your current available balance for trading.
+                    </p>
+                    <div class="mt-4">
+                        <div class="stat-value text-primary">€{{ number_format(auth()->user()->wallet_balance, 2) }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
