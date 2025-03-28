@@ -488,5 +488,9 @@
     <script src="{{ asset('js/api.js') }}"></script>
     <script src="{{ asset('js/chart.js') }}"></script>
     <script src="{{ asset('js/gamification.js') }}"></script>
+    <script src="{{ asset('js/compatibility.js') }}"></script>
+    
+    <!-- Crypto AI Chatbot Component -->
+    @include('components.crypto-chatbot-simple')
 </body>
 </html>
