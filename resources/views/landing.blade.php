@@ -227,19 +227,29 @@
         <div class="container mx-auto px-4">
             <div class="card bg-primary text-primary-content animate-gradient">
                 <div class="card-body text-center" data-aos="zoom-in">
-                    <h2 class="card-title text-3xl justify-center mb-4">Ready to Start Your Crypto Journey?</h2>
-                    <p class="mb-6">Join thousands of traders who are already using CryptoTracker to optimize their trading strategy.</p>
-                    <div class="card-actions justify-center">
-                        <button class="btn btn-secondary hover-scale">
-                            <i class="fas fa-user-plus mr-2"></i>
-                            Create Free Account
-                        </button>
-                    </div>
+                    @auth
+                        <h2 class="card-title text-3xl justify-center mb-4">Start Trading!</h2>
+                        <p class="mb-6">Your portfolio is waiting. Continue your trading journey with CryptoTracker.</p>
+                        <div class="card-actions justify-center">
+                            <a href="{{ route('portfolio') }}" class="btn btn-secondary hover-scale">
+                                <i class="fas fa-chart-line mr-2"></i>
+                                Go to Portfolio
+                            </a>
+                        </div>
+                    @else
+                        <h2 class="card-title text-3xl justify-center mb-4">Ready to Start Your Crypto Journey?</h2>
+                        <p class="mb-6">Join thousands of traders who are already using CryptoTracker to optimize their trading strategy.</p>
+                        <div class="card-actions justify-center">
+                            <a href="{{ route('register') }}" class="btn btn-secondary hover-scale">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Create Free Account
+                            </a>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>
     </div>
- 
     <!-- Footer -->
     <footer class="footer p-10 bg-base-200 text-base-content">
         <div>
