@@ -44,6 +44,13 @@
             </div>
             <div class="navbar-end">
                 <div class="flex items-center space-x-4">
+                    @auth
+                        <!-- Wallet Balance -->
+                        <div class="hidden sm:flex items-center gap-2">
+                            <i class="fas fa-wallet text-primary"></i>
+                            <span class="text-primary font-semibold">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                        </div>
+                    @endauth
                     <button class="btn btn-ghost btn-circle">
                         <i class="fas fa-bell"></i>
                     </button>
@@ -80,6 +87,13 @@
                         <i class="fas fa-dollar-sign mr-2"></i>
                         Total Balance
                     </h2>
+                    <div class="stat">
+                        <div class="stat-value text-primary">€{{ number_format(Auth::user()->wallet_balance, 2) }}</div>
+                        <div class="stat-desc text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            Available for trading
+                        </div>
+                    </div>
                     <div class="stat">
                         <div class="stat-value text-primary">$10,000</div>
                         <div class="stat-desc text-green-500">
@@ -118,82 +132,46 @@
             </div>
         </div>
 
-        <!-- Cryptocurrency Holdings -->
+        <!-- Replace the existing Cryptocurrency Holdings section with this -->
         <div class="card bg-base-100 shadow-xl mb-6">
             <div class="card-body p-2 sm:p-6">
                 <h2 class="card-title mb-4">
                     <i class="fas fa-chart-pie mr-2"></i>
-                    Your Cryptocurrency Holdings
+                    Your Investments
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Coin 1: LearnCoin -->
+                    @forelse($investments as $investment)
                     <div class="card bg-base-200 shadow-md">
                         <div class="card-body">
                             <div class="flex justify-between items-center">
-                                <h3 class="card-title">LearnCoin</h3>
-                                <span class="badge badge-primary">LRN</span>
+                                <h3 class="card-title">{{ $investment->crypto_name }}</h3>
+                                <span class="badge badge-primary">{{ $investment->crypto_symbol }}</span>
                             </div>
                             <div class="stat px-0">
-                                <div class="stat-value text-primary">500 LRN</div>
-                                <div class="stat-desc">$5,000</div>
+                                <div class="stat-value text-primary">{{ number_format($investment->quantity, 8) }} {{ $investment->crypto_symbol }}</div>
+                                <div class="stat-desc">€{{ number_format($investment->current_value, 2) }}</div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-green-500">
-                                    <i class="fas fa-arrow-up mr-1"></i>
-                                    +3.2%
+                                <span class="@if($investment->profit_loss >= 0) text-green-500 @else text-red-500 @endif">
+                                    <i class="fas fa-arrow-{{ $investment->profit_loss >= 0 ? 'up' : 'down' }} mr-1"></i>
+                                    {{ number_format($investment->profit_loss_percentage, 2) }}%
                                 </span>
-                                <button class="btn btn-sm btn-outline btn-primary">
-                                    Trade
+                                <button class="btn btn-sm btn-outline btn-primary" onclick="sellInvestment('{{ $investment->id }}')">
+                                    Sell
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Coin 2: EduToken -->
-                    <div class="card bg-base-200 shadow-md">
-                        <div class="card-body">
-                            <div class="flex justify-between items-center">
-                                <h3 class="card-title">EduToken</h3>
-                                <span class="badge badge-secondary">EDU</span>
-                            </div>
-                            <div class="stat px-0">
-                                <div class="stat-value text-secondary">250 EDU</div>
-                                <div class="stat-desc">$2,500</div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-red-500">
-                                    <i class="fas fa-arrow-down mr-1"></i>
-                                    -1.5%
-                                </span>
-                                <button class="btn btn-sm btn-outline btn-secondary">
-                                    Trade
-                                </button>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-span-full text-center py-8">
+                        <h3 class="text-lg font-semibold mb-2">No Investments Yet</h3>
+                        <p class="text-gray-500 mb-4">Start your investment journey by buying some crypto!</p>
+                        <a href="{{ route('market') }}" class="btn btn-primary">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Browse Market
+                        </a>
                     </div>
-
-                    <!-- Coin 3: QuestCoin -->
-                    <div class="card bg-base-200 shadow-md">
-                        <div class="card-body">
-                            <div class="flex justify-between items-center">
-                                <h3 class="card-title">QuestCoin</h3>
-                                <span class="badge badge-accent">QST</span>
-                            </div>
-                            <div class="stat px-0">
-                                <div class="stat-value text-accent">750 QST</div>
-                                <div class="stat-desc">$3,000</div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-green-500">
-                                    <i class="fas fa-arrow-up mr-1"></i>
-                                    +2.7%
-                                </span>
-                                <button class="btn btn-sm btn-outline btn-accent">
-                                    Trade
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

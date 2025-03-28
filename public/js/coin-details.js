@@ -468,4 +468,45 @@ function showError(message, type = 'error') {
             alertElement.remove();
         }
     }, 5000);
-} 
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const buyForm = document.getElementById('buyForm');
+    const investAmount = document.getElementById('investAmount');
+    const coinAmountDisplay = document.getElementById('coinAmount');
+    const currentPrice = parseFloat(document.getElementById('currentPrice').dataset.price);
+
+    investAmount.addEventListener('input', function() {
+        const amount = parseFloat(this.value) || 0;
+        const coinAmount = amount / currentPrice;
+        coinAmountDisplay.textContent = coinAmount.toFixed(8);
+    });
+
+    buyForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch('/api/investments/buy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify({
+                    crypto_symbol: coinSymbol,
+                    amount: parseFloat(investAmount.value)
+                })
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                window.location.href = '/portfolio';
+            } else {
+                alert(data.error || 'Failed to make purchase');
+            }
+        } catch (error) {
+            alert('Failed to process transaction');
+        }
+    });
+});

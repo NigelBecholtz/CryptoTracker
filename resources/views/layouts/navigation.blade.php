@@ -118,3 +118,26 @@
         </div>
     </div>
 </nav>
+
+<div class="navbar-end">
+    <div class="flex items-center space-x-4">
+        @auth
+            <!-- Wallet Balance -->
+            <div class="hidden sm:flex items-center gap-2">
+                <i class="fas fa-wallet text-primary"></i>
+                <span class="text-primary font-semibold">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+            </div>
+            <!-- Notifications -->
+            <button class="btn btn-ghost btn-circle">
+                <i class="fas fa-bell"></i>
+            </button>
+            <!-- User Menu -->
+            <div class="dropdown dropdown-end">
+                <!-- Rest of the user menu -->
+            </div>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-ghost">Login</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+        @endauth
+    </div>
+</div>

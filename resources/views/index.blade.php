@@ -42,6 +42,13 @@
             </div>
             <div class="navbar-end">
                 <div class="flex items-center space-x-4">
+                    @auth
+                        <!-- Wallet Balance -->
+                        <div class="hidden sm:flex items-center gap-2">
+                            <i class="fas fa-wallet text-primary"></i>
+                            <span class="text-primary font-semibold">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                        </div>
+                    @endauth
                     <button class="btn btn-ghost btn-circle">
                         <i class="fas fa-bell"></i>
                     </button>
