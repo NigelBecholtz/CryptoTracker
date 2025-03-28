@@ -13,8 +13,8 @@ vendor/
 
 # # Environment files
 .env
-# .env.local
-# .env.*.local
+.env.local
+.env.*.local
 
 # Build output
 dist/
