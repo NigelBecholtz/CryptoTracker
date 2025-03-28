@@ -292,6 +292,26 @@
             easing: 'ease-out',
             once: true
         });
+
+        // Animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add your animation logic here
+            console.log('Landing page animations initialized');
+        });
     </script>
+    
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        
+        // Custom animations
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add your JavaScript animations here
+        });
+    </script>
+    
+    <!-- Crypto AI Chatbot Component -->
+    @include('components.crypto-chatbot-simple')
 </body>
 </html>

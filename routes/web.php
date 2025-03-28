@@ -37,4 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Chatbot routes
+Route::get('/chatbot-config', [App\Http\Controllers\ChatbotController::class, 'getConfig'])->name('chatbot.config');
+Route::post('/chatbot-response', [App\Http\Controllers\ChatbotController::class, 'getResponse'])->name('chatbot.response');
+
+// Test Route that doesn't require CSRF
+Route::get('/test-huggingface', [App\Http\Controllers\TestController::class, 'testHuggingFace'])->name('test.huggingface');
+
 require __DIR__.'/auth.php';

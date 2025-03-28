@@ -303,5 +303,8 @@
             initializeRealTimeUpdates();
         });
     </script>
+
+    <!-- Crypto AI Chatbot Component -->
+    @include('components.crypto-chatbot-simple')
 </body>
 </html>

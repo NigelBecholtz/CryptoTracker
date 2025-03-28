@@ -20,3 +20,4 @@ vendor/
 dist/
 build/
 *.log
+.env
