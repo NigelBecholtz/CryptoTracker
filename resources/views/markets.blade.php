@@ -198,6 +198,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/CoinbaseWebSocket.js') }}"></script>
     <script src="{{ asset('js/api.js') }}"></script>
     <script src="{{ asset('js/compatibility.js') }}"></script>
     <script src="{{ asset('js/markets.js') }}"></script>

@@ -1,113 +1,87 @@
-const COIN_API_KEY = '493e46c7-b5e7-42a2-891a-87c781b84cdc';
-const BASE_URL = 'https://rest.coinapi.io/v1';
+// Initialize WebSocket connection
+let coinbaseWebSocket = null;
+let marketData = new Map();
 
 class CryptoAPI {
-    static async getExchangeRates() {
-        try {
-            const response = await fetch(`${BASE_URL}/exchangerate/USD`, {
-                headers: {
-                    'X-CoinAPI-Key': COIN_API_KEY
+    static initialize() {
+        if (!coinbaseWebSocket) {
+            coinbaseWebSocket = new CoinbaseWebSocket();
+            coinbaseWebSocket.connect();
+            
+            // Subscribe to ticker channel for real-time updates
+            coinbaseWebSocket.subscribe(['ticker']);
+            
+            // Listen for ticker updates
+            window.addEventListener('coinbaseTicker', (event) => {
+                const data = event.detail;
+                marketData.set(data.product_id, {
+                    ...marketData.get(data.product_id),
+                    ...data,
+                    price_usd: data.price,
+                    volume_1day_usd: data.volume_24h,
+                    price_usd_change_percent_24h: calculatePriceChange(data)
+                });
+                
+                // Update the UI if we're on the markets page
+                if (window.location.pathname.includes('markets.html')) {
+                    updateMarketTable();
                 }
             });
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching exchange rates:', error);
-            return null;
         }
     }
 
     static async getAssets() {
-        try {
-            const response = await fetch(`${BASE_URL}/assets`, {
-                headers: {
-                    'X-CoinAPI-Key': COIN_API_KEY
-                }
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching assets:', error);
-            return null;
-        }
-    }
-
-    static async getOHLCV(symbolId, periodId = '1DAY', limit = 7) {
-        try {
-            const response = await fetch(`${BASE_URL}/exchangerate/${symbolId}/USD/history?period_id=${periodId}&limit=${limit}&time_end=${new Date().toISOString()}`, {
-                headers: {
-                    'X-CoinAPI-Key': COIN_API_KEY
-                }
-            });
-            const data = await response.json();
-            // Ensure we have data and it's an array
-            if (data && Array.isArray(data)) {
-                return data;
-            }
-            throw new Error('Invalid OHLCV data format');
-        } catch (error) {
-            console.error('Error fetching OHLCV data:', error);
-            return null;
-        }
-    }
-
-    static async getSymbols() {
-        try {
-            const response = await fetch(`${BASE_URL}/symbols`, {
-                headers: {
-                    'X-CoinAPI-Key': COIN_API_KEY
-                }
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching symbols:', error);
-            return null;
-        }
+        // Return cached data from WebSocket
+        return Array.from(marketData.values()).map(data => ({
+            asset_id: data.product_id,
+            name: data.product_id.split('-')[0],
+            price_usd: data.price,
+            volume_1day_usd: data.volume_24h,
+            price_usd_change_percent_24h: data.price_usd_change_percent_24h,
+            type_is_crypto: 1
+        }));
     }
 
     static async getAsset(assetId) {
-        try {
-            const response = await fetch(`${BASE_URL}/assets`, {
-                headers: {
-                    'X-CoinAPI-Key': COIN_API_KEY
-                }
-            });
-            const assets = await response.json();
-            return assets.find(asset => asset.asset_id === assetId);
-        } catch (error) {
-            console.error('Error fetching asset:', error);
-            return null;
-        }
+        const data = marketData.get(assetId + '-USD');
+        if (!data) return null;
+        
+        return {
+            asset_id: data.product_id,
+            name: data.product_id.split('-')[0],
+            price_usd: data.price,
+            volume_1day_usd: data.volume_24h,
+            price_usd_change_percent_24h: data.price_usd_change_percent_24h,
+            type_is_crypto: 1
+        };
     }
 
     static async getPriceChange(assetId) {
-        try {
-            const now = new Date();
-            const yesterday = new Date(now - 24 * 60 * 60 * 1000);
-            
-            const response = await fetch(
-                `${BASE_URL}/exchangerate/${assetId}/USD/history?period_id=1HRS&time_start=${yesterday.toISOString()}&time_end=${now.toISOString()}&limit=24`,
-                {
-                    headers: {
-                        'X-CoinAPI-Key': COIN_API_KEY
-                    }
-                }
-            );
-            
-            const data = await response.json();
-            if (data && Array.isArray(data) && data.length >= 2 && 
-                typeof data[0].rate === 'number' && typeof data[data.length - 1].rate === 'number') {
-                const oldPrice = data[0].rate;
-                const newPrice = data[data.length - 1].rate;
-                if (oldPrice === 0) return 0;
-                const percentChange = ((newPrice - oldPrice) / oldPrice) * 100;
-                // Check if the result is a valid number
-                return !isNaN(percentChange) ? percentChange : 0;
-            }
-            return 0;
-        } catch (error) {
-            console.error(`Error fetching price change for ${assetId}:`, error);
-            return 0;
-        }
+        const data = marketData.get(assetId + '-USD');
+        return data ? data.price_usd_change_percent_24h : 0;
     }
+
+    static async getOHLCV(symbolId, periodId = '1DAY', limit = 7) {
+        // Note: OHLCV data is not available through WebSocket
+        // You might want to keep using CoinAPI for this or implement a different solution
+        console.warn('OHLCV data is not available through WebSocket');
+        return [];
+    }
+
+    static disconnect() {
+        if (coinbaseWebSocket) {
+            coinbaseWebSocket.disconnect();
+            coinbaseWebSocket = null;
+        }
+        marketData.clear();
+    }
+}
+
+// Helper function to calculate price change percentage
+function calculatePriceChange(data) {
+    if (!data.low_24h || !data.high_24h) return 0;
+    const priceChange = ((data.price - data.low_24h) / data.low_24h) * 100;
+    return !isNaN(priceChange) ? priceChange : 0;
 }
 
 // Update the market table with real data
@@ -355,11 +329,16 @@ function filterMarkets() {
     }
 }
 
-// Initialize market data when the page loads
+// Initialize WebSocket when the page loads
 document.addEventListener('DOMContentLoaded', () => {
+    CryptoAPI.initialize();
+    
     if (window.location.pathname.includes('markets.html')) {
         displayMarketData();
-        // Refresh data every 1 minute
-        setInterval(displayMarketData, 60000);
     }
+});
+
+// Clean up WebSocket connection when leaving the page
+window.addEventListener('beforeunload', () => {
+    CryptoAPI.disconnect();
 }); 
