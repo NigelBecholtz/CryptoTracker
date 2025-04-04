@@ -88,19 +88,13 @@
                         Total Balance
                     </h2>
                     <div class="stat">
-                        <div class="stat-value text-primary">€{{ number_format(Auth::user()->wallet_balance, 2) }}</div>
+                        <div class="stat-value text-primary wallet-balance-large">€{{ number_format(Auth::user()->wallet_balance, 2) }}</div>
                         <div class="stat-desc text-green-500">
                             <i class="fas fa-arrow-up mr-1"></i>
                             Available for trading
                         </div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value text-primary">$10,000</div>
-                        <div class="stat-desc text-green-500">
-                            <i class="fas fa-arrow-up mr-1"></i>
-                            5.6% (24h)
-                        </div>
-                    </div>
+                    <!-- Removed the $10,000 display -->
                 </div>
             </div>
             <div class="card bg-base-100 shadow-xl">
@@ -110,10 +104,13 @@
                         Portfolio Value
                     </h2>
                     <div class="stat">
-                        <div class="stat-value text-secondary">$10,500</div>
-                        <div class="stat-desc text-green-500">
-                            <i class="fas fa-arrow-up mr-1"></i>
-                            6.2% (7d)
+                        <div class="stat-value text-secondary">
+                            €{{ number_format(collect($investments)->sum('current_value'), 2) }}
+                        </div>
+                        <div class="stat-desc 
+                            @if(collect($investments)->sum('profit_loss') >= 0) text-green-500 @else text-red-500 @endif">
+                            <i class="fas fa-arrow-{{ collect($investments)->sum('profit_loss') >= 0 ? 'up' : 'down' }} mr-1"></i>
+                            {{ number_format(collect($investments)->sum('profit_loss_percentage'), 2) }}% (overall)
                         </div>
                     </div>
                 </div>
@@ -125,7 +122,7 @@
                         Coins Held
                     </h2>
                     <div class="stat">
-                        <div class="stat-value text-accent">3</div>
+                        <div class="stat-value text-accent">{{ count($investments) }}</div>
                         <div class="stat-desc">Unique Cryptocurrencies</div>
                     </div>
                 </div>
@@ -140,6 +137,7 @@
                     Your Investments
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Replace the investment card with this updated version -->
                     @forelse($investments as $investment)
                     <div class="card bg-base-200 shadow-md">
                         <div class="card-body">
@@ -149,20 +147,75 @@
                             </div>
                             <div class="stat px-0">
                                 <div class="stat-value text-primary">{{ number_format($investment['quantity'], 8) }}</div>
-                                <div class="stat-desc">€{{ number_format($investment['current_value'], 2) }}</div>
+                                <div class="stat-desc">
+                                    <span class="font-semibold">€{{ number_format($investment['current_value'], 2) }}</span>
+                                    <span class="text-xs ml-1">(€{{ number_format($investment['current_price'], 2) }} each)</span>
+                                </div>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="@if($investment['profit_loss'] >= 0) text-green-500 @else text-red-500 @endif">
                                     <i class="fas fa-arrow-{{ $investment['profit_loss'] >= 0 ? 'up' : 'down' }} mr-1"></i>
                                     {{ number_format($investment['profit_loss_percentage'], 2) }}%
                                 </span>
-                                <form action="{{ route('portfolio.sell') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="portfolio_id" value="{{ $investment['id'] }}">
-                                    <button type="submit" class="btn btn-sm btn-outline btn-primary">
-                                        Sell
-                                    </button>
-                                </form>
+                                <!-- Add this modal for selling crypto -->
+                                <dialog id="sell_modal" class="modal">
+                                    <div class="modal-box">
+                                        <h3 class="font-bold text-lg mb-4">
+                                            Sell <span id="sell_coin_name">Coin</span>
+                                            <span id="sell_coin_symbol" class="badge badge-primary ml-2">SYM</span>
+                                        </h3>
+                                        
+                                        <form action="{{ route('portfolio.sell') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="portfolio_id" id="sell_portfolio_id">
+                                            
+                                            <div class="form-control w-full mb-4">
+                                                <label class="label">
+                                                    <span class="label-text">Current Price</span>
+                                                </label>
+                                                <div class="input-group">
+                                                    <span>€</span>
+                                                    <input type="text" id="sell_current_price" class="input input-bordered w-full" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-control w-full mb-4">
+                                                <label class="label">
+                                                    <span class="label-text">Available Quantity</span>
+                                                </label>
+                                                <input type="text" id="sell_available_quantity" class="input input-bordered w-full" readonly>
+                                            </div>
+                                            
+                                            <div class="form-control w-full mb-4">
+                                                <label class="label">
+                                                    <span class="label-text">Quantity to Sell</span>
+                                                    <span class="label-text-alt">
+                                                        <button type="button" class="text-primary" onclick="setMaxSellQuantity()">Max</button>
+                                                    </span>
+                                                </label>
+                                                <input type="number" name="quantity" id="sell_quantity" placeholder="Enter quantity" 
+                                                       class="input input-bordered w-full" step="0.00000001" required>
+                                            </div>
+                                            
+                                            <div class="form-control w-full mb-4">
+                                                <label class="label">
+                                                    <span class="label-text">Total Amount (Estimated)</span>
+                                                </label>
+                                                <div class="input-group">
+                                                    <span>€</span>
+                                                    <input type="text" id="sell_total_amount" class="input input-bordered w-full" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="modal-action">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-check mr-2"></i>Confirm Sell
+                                                </button>
+                                                <button type="button" class="btn" onclick="closeSellModal()">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </dialog>
                             </div>
                         </div>
                     </div>
@@ -464,6 +517,43 @@
             alert(`Trade executed successfully! ${currentTradeType.toUpperCase()}: ${amount} ${currentCoin.symbol}`);
             closeTradeModal();
         }
+
+            function openSellModal(investment) {
+                // Set values in the modal
+                document.getElementById('sell_coin_name').textContent = investment.crypto_name;
+                document.getElementById('sell_coin_symbol').textContent = investment.crypto_symbol;
+                document.getElementById('sell_portfolio_id').value = investment.id;
+                document.getElementById('sell_current_price').value = investment.current_price.toFixed(2);
+                document.getElementById('sell_available_quantity').value = investment.quantity;
+                document.getElementById('sell_quantity').value = '';
+                document.getElementById('sell_total_amount').value = '0.00';
+                
+                // Add event listener for quantity input
+                const quantityInput = document.getElementById('sell_quantity');
+                quantityInput.addEventListener('input', updateSellTotal);
+                quantityInput.max = investment.quantity;
+                
+                // Show the modal
+                document.getElementById('sell_modal').showModal();
+            }
+            
+            function closeSellModal() {
+                document.getElementById('sell_modal').close();
+            }
+            
+            function updateSellTotal() {
+                const quantity = parseFloat(document.getElementById('sell_quantity').value) || 0;
+                const price = parseFloat(document.getElementById('sell_current_price').value) || 0;
+                const total = quantity * price;
+                
+                document.getElementById('sell_total_amount').value = total.toFixed(2);
+            }
+            
+            function setMaxSellQuantity() {
+                const maxQuantity = parseFloat(document.getElementById('sell_available_quantity').value);
+                document.getElementById('sell_quantity').value = maxQuantity;
+                updateSellTotal();
+            }
 
         // Add event listeners when document loads
         document.addEventListener('DOMContentLoaded', () => {

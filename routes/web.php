@@ -39,7 +39,6 @@ Route::middleware(['auth'])->group(function () {
     // Add this route to your existing routes
     Route::post('/buy-crypto', [App\Http\Controllers\CryptoController::class, 'buyCrypto'])->name('buy.crypto')->middleware('auth');
     
-    // Add this route with your other portfolio routes
     Route::post('/portfolio/sell', [PortfolioController::class, 'sellInvestment'])->name('portfolio.sell');
 });
 
