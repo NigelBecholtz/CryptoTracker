@@ -45,4 +45,12 @@
             @include('components.crypto-chatbot-simple')
         </div>
     </body>
+    <!-- Add this near the end of your layout file, before the closing body tag -->
+    @if(session('wallet_balance'))
+    <script>
+        // Make wallet balance available to JavaScript
+        const walletBalance = {{ session('wallet_balance') }};
+    </script>
+    @endif
+    <script src="{{ asset('js/wallet.js') }}"></script>
 </html>

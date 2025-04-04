@@ -48,7 +48,7 @@
                         <!-- Wallet Balance -->
                         <div class="hidden sm:flex items-center gap-2">
                             <i class="fas fa-wallet text-primary"></i>
-                            <span class="text-primary font-semibold">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                            <span class="text-primary font-semibold wallet-balance">€{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
                         </div>
                     @endauth
                     <button class="btn btn-ghost btn-circle">
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <!-- Replace the existing Cryptocurrency Holdings section with this -->
+        <!-- Replace the existing Your Investments section with this -->
         <div class="card bg-base-100 shadow-xl mb-6">
             <div class="card-body p-2 sm:p-6">
                 <h2 class="card-title mb-4">
@@ -144,21 +144,25 @@
                     <div class="card bg-base-200 shadow-md">
                         <div class="card-body">
                             <div class="flex justify-between items-center">
-                                <h3 class="card-title">{{ $investment->crypto_name }}</h3>
-                                <span class="badge badge-primary">{{ $investment->crypto_symbol }}</span>
+                                <h3 class="card-title">{{ $investment['crypto_name'] }}</h3>
+                                <span class="badge badge-primary">{{ $investment['crypto_symbol'] }}</span>
                             </div>
                             <div class="stat px-0">
-                                <div class="stat-value text-primary">{{ number_format($investment->quantity, 8) }} {{ $investment->crypto_symbol }}</div>
-                                <div class="stat-desc">€{{ number_format($investment->current_value, 2) }}</div>
+                                <div class="stat-value text-primary">{{ number_format($investment['quantity'], 8) }}</div>
+                                <div class="stat-desc">€{{ number_format($investment['current_value'], 2) }}</div>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="@if($investment->profit_loss >= 0) text-green-500 @else text-red-500 @endif">
-                                    <i class="fas fa-arrow-{{ $investment->profit_loss >= 0 ? 'up' : 'down' }} mr-1"></i>
-                                    {{ number_format($investment->profit_loss_percentage, 2) }}%
+                                <span class="@if($investment['profit_loss'] >= 0) text-green-500 @else text-red-500 @endif">
+                                    <i class="fas fa-arrow-{{ $investment['profit_loss'] >= 0 ? 'up' : 'down' }} mr-1"></i>
+                                    {{ number_format($investment['profit_loss_percentage'], 2) }}%
                                 </span>
-                                <button class="btn btn-sm btn-outline btn-primary" onclick="sellInvestment('{{ $investment->id }}')">
-                                    Sell
-                                </button>
+                                <form action="{{ route('portfolio.sell') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="portfolio_id" value="{{ $investment['id'] }}">
+                                    <button type="submit" class="btn btn-sm btn-outline btn-primary">
+                                        Sell
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -492,5 +496,7 @@
     
     <!-- Crypto AI Chatbot Component -->
     @include('components.crypto-chatbot-simple')
+<!-- Add this before the closing body tag -->
+<script src="{{ asset('js/wallet.js') }}"></script>
 </body>
 </html>

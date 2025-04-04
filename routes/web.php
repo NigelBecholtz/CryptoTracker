@@ -35,6 +35,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Add this route to your existing routes
+    Route::post('/buy-crypto', [App\Http\Controllers\CryptoController::class, 'buyCrypto'])->name('buy.crypto')->middleware('auth');
+    
+    // Add this route with your other portfolio routes
+    Route::post('/portfolio/sell', [PortfolioController::class, 'sellInvestment'])->name('portfolio.sell');
 });
 
 // Chatbot routes

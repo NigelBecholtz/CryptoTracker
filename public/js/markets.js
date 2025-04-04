@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const row = document.createElement('tr');
             
             // Format the 24h change with proper color and sign
-            const changeClass = asset.price_usd_change_percent_24h >= 0 ? 'text-success' : 'text-danger';
+            const changeClass = asset.price_usd_change_percent_24h >= 0 ? 'text-success' : 'text-error';
             const changeSign = asset.price_usd_change_percent_24h >= 0 ? '+' : '';
             const formattedChange = `${changeSign}${asset.price_usd_change_percent_24h.toFixed(2)}%`;
             
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             
             // Build the row HTML
             row.innerHTML = `
-                <td class="py-3">${index + 1}</td>
+                <td class="hidden sm:table-cell py-3">${index + 1}</td>
                 <td class="py-3">
                     <a href="/coin/${asset.asset_id}" class="flex items-center">
                         <span class="coin-symbol">${asset.asset_id}</span>
@@ -190,17 +190,36 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </a>
                 </td>
                 <td class="py-3">${formattedPrice}</td>
-                <td class="py-3 ${changeClass}">${formattedChange}</td>
-                <td class="py-3">${formattedMarketCap}</td>
-                <td class="py-3">${formattedVolume}</td>
+                <td class="hidden sm:table-cell py-3 ${changeClass}">${formattedChange}</td>
+                <td class="hidden md:table-cell py-3">${formattedMarketCap}</td>
+                <td class="hidden lg:table-cell py-3">${formattedVolume}</td>
                 <td class="py-3">
-                    <button class="btn btn-sm btn-outline btn-primary" onclick="window.location.href='/coin/${asset.asset_id}'">
-                        View
-                    </button>
+                    <div class="flex gap-2">
+                        <button class="btn btn-sm btn-outline btn-primary" onclick="window.location.href='/coin/${asset.asset_id}'">
+                            View
+                        </button>
+                        <button class="btn btn-sm btn-outline btn-success buy-btn" data-coin='${JSON.stringify({
+                            symbol: asset.asset_id,
+                            name: asset.name,
+                            price: asset.price_usd,
+                            change: asset.price_usd_change_percent_24h
+                        })}'>
+                            Buy
+                        </button>
+                    </div>
                 </td>
             `;
             
             tableBody.appendChild(row);
+        });
+        
+        // Add event listeners to buy buttons
+        document.querySelectorAll('.buy-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const coinData = JSON.parse(button.getAttribute('data-coin'));
+                openTradeModal(coinData);
+            });
         });
     }
     
@@ -255,4 +274,4 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Don't show error message for background refresh
         }
     }, 60000);
-}); 
+});
