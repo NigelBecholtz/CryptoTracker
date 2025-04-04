@@ -304,12 +304,97 @@
     <script src="{{ asset('js/compatibility.js') }}"></script>
     <script src="{{ asset('js/markets.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- Trading Modal Script -->
     <script>
         let currentCoin = null;
         let priceChart = null;
         
+        // Add this function to safely update market overview data
+        async function updateMarketOverview() {
+            try {
+                const assets = await CryptoAPI.getAssets();
+                if (!assets || !Array.isArray(assets) || assets.length === 0) {
+                    console.warn('No valid asset data received');
+                    return; // Don't update if we don't have valid data
+                }
+
+                // Calculate total market cap and 24h volume
+                const cryptoAssets = assets.filter(asset => asset.type_is_crypto === 1);
+                
+                if (cryptoAssets.length === 0) {
+                    console.warn('No crypto assets found in data');
+                    return;
+                }
+                
+                const totalMarketCap = cryptoAssets
+                    .reduce((sum, asset) => sum + (asset.market_cap_usd || 0), 0);
+                    
+                const totalVolume = cryptoAssets
+                    .reduce((sum, asset) => sum + (asset.volume_1day_usd || 0), 0);
+
+                // Calculate average percentage change
+                const assetsWithChange = cryptoAssets.filter(asset => 
+                    asset.price_usd_change_percent_24h !== undefined && 
+                    asset.price_usd_change_percent_24h !== null
+                );
+                
+                const avgChange = assetsWithChange.length > 0 
+                    ? assetsWithChange.reduce((sum, asset) => sum + asset.price_usd_change_percent_24h, 0) / assetsWithChange.length 
+                    : 0;
+
+                // Only update DOM if we have valid values
+                if (totalMarketCap > 0) {
+                    const marketCapElement = document.getElementById('total-market-cap');
+                    if (marketCapElement) {
+                        marketCapElement.textContent = `$${formatLargeNumber(totalMarketCap)}`;
+                    }
+                }
+                
+                if (totalVolume > 0) {
+                    const volumeElement = document.getElementById('total-volume');
+                    if (volumeElement) {
+                        volumeElement.textContent = `$${formatLargeNumber(totalVolume)}`;
+                    }
+                }
+                
+                const avgPercentElement = document.getElementById('avg-percent-change');
+                if (avgPercentElement) {
+                    avgPercentElement.innerHTML = `
+                        <div class="flex items-center gap-1">
+                            <i class="fas fa-${avgChange >= 0 ? 'arrow-up' : 'arrow-down'}"></i>
+                            <span>${Math.abs(avgChange).toFixed(2)}% (24h)</span>
+                        </div>
+                    `;
+                    avgPercentElement.className = `stat-desc ${avgChange >= 0 ? 'text-success' : 'text-error'}`;
+                }
+                
+                // Update active cryptocurrencies count
+                const cryptoCountElement = document.querySelector('.stat-value.text-accent');
+                if (cryptoCountElement) {
+                    cryptoCountElement.textContent = cryptoAssets.length.toLocaleString();
+                }
+            } catch (error) {
+                console.error('Error updating market overview:', error);
+                // Don't update UI on error - keep existing values
+            }
+        }
+        
+        // Helper function to format large numbers with T, B, M suffixes
+        function formatLargeNumber(num) {
+            if (num >= 1e12) return (num / 1e12).toFixed(2) + 'T';
+            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            return num.toLocaleString();
+        }
+        
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMarketOverview();
+            // Call it again every 5 minutes
+            setInterval(updateMarketOverview, 5 * 60 * 1000);
+        });
+
         function openTradeModal(coin) {
             currentCoin = coin;
             
